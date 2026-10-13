@@ -7,6 +7,7 @@ import EncryptionStation from './stations/EncryptionStation';
 import TransmissionStation from './stations/TransmissionStation';
 import DecryptionStation from './stations/DecryptionStation';
 import VerificationStation from './stations/VerificationStation';
+import TheoryPanel from './components/TheoryPanel';
 
 function App() {
     const { currentStep } = useLab();
@@ -50,15 +51,25 @@ function App() {
                     </ul>
                 </nav>
 
-                {/* Main Workspace Area */}
-                <main className="flex-1 relative bg-osBg p-8 overflow-y-auto overflow-x-hidden flex justify-center items-start">
-                    {currentStep === LAB_STEPS.SETUP && <SetupStation />}
-                    {currentStep >= LAB_STEPS.HASH_ASCII && currentStep <= LAB_STEPS.HASH_MODULO && <HashStation />}
-                    {currentStep === LAB_STEPS.CREATE_PAYLOAD && <PayloadAssembler />}
-                    {currentStep >= LAB_STEPS.INSERT_KEY && currentStep <= LAB_STEPS.ASSEMBLE_CIPHERTEXT && <EncryptionStation />}
-                    {currentStep >= LAB_STEPS.TRANSMIT && currentStep <= LAB_STEPS.INTERCEPT && <TransmissionStation />}
-                    {currentStep >= LAB_STEPS.DECRYPT_XOR && currentStep <= LAB_STEPS.EXTRACT_PAYLOAD && <DecryptionStation />}
-                    {currentStep >= LAB_STEPS.VERIFY_HASH_ASCII && currentStep <= LAB_STEPS.COMPLETE && <VerificationStation />}
+                {/* Main Two-Column Workspace Area */}
+                <main className="flex-1 relative bg-osBg overflow-y-auto overflow-x-hidden flex flex-col lg:flex-row">
+                    {/* Primary Column: Active Exercise */}
+                    <div className="flex-1 min-w-0 p-6 lg:p-8 flex justify-center items-start overflow-y-auto border-b lg:border-b-0 lg:border-r border-osGlassBorder">
+                        <div className="w-full max-w-2xl flex flex-col items-center">
+                            {currentStep === LAB_STEPS.SETUP && <SetupStation />}
+                            {currentStep >= LAB_STEPS.HASH_ASCII && currentStep <= LAB_STEPS.HASH_MODULO && <HashStation />}
+                            {currentStep === LAB_STEPS.CREATE_PAYLOAD && <PayloadAssembler />}
+                            {currentStep >= LAB_STEPS.INSERT_KEY && currentStep <= LAB_STEPS.ASSEMBLE_CIPHERTEXT && <EncryptionStation />}
+                            {currentStep >= LAB_STEPS.TRANSMIT && currentStep <= LAB_STEPS.INTERCEPT && <TransmissionStation />}
+                            {currentStep >= LAB_STEPS.DECRYPT_XOR && currentStep <= LAB_STEPS.EXTRACT_PAYLOAD && <DecryptionStation />}
+                            {currentStep >= LAB_STEPS.VERIFY_HASH_ASCII && currentStep <= LAB_STEPS.COMPLETE && <VerificationStation />}
+                        </div>
+                    </div>
+
+                    {/* Secondary Column: Theory & Live Calculations Panel */}
+                    <div className="w-full lg:w-[420px] xl:w-[480px] shrink-0 bg-osSurface/40 overflow-y-auto border-t lg:border-t-0">
+                        <TheoryPanel />
+                    </div>
                 </main>
 
             </div>
